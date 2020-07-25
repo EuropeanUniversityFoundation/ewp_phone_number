@@ -1,0 +1,13 @@
+field.widget.settings.phone_number_default:
+  type: mapping
+  label: 'Default widget settings'
+  mapping:
+    placeholder_e164:
+      type: textfield
+      label: 'Placeholder for Number'
+    placeholder_ext:
+      type: textfield
+      label: 'Placeholder for Extension'
+    placeholder_other:
+      type: textfield
+      label: 'Placeholder for Other format'

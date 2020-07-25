@@ -1,0 +1,22 @@
+{
+  "name": "ewp_phone_number",
+  "type": "drupal-module",
+  "description": "Drupal implementation of the EWP Phone Number Type",
+  "keywords": [
+  ],
+  "homepage": "",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "",
+    "source": ""
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/EuropeanUniversityFoundation/ewp_core"
+    }
+  ],
+  "require": {
+    "euf/ewp_core": "dev-master"
+  }
+}

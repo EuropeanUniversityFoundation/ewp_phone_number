@@ -1,0 +1,8 @@
+name: 'EWP Phone Number'
+type: module
+description: 'Drupal implementation of the EWP Phone Number Type'
+core: 8.x
+package: 'EWP'
+dependencies:
+  - drupal:telephone
+  - ewp_core:ewp_core
