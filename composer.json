@@ -1,5 +1,5 @@
 {
-  "name": "ewp_phone_number",
+  "name": "euf/ewp_phone_number",
   "type": "drupal-module",
   "description": "Drupal implementation of the EWP Phone Number Type",
   "keywords": [
