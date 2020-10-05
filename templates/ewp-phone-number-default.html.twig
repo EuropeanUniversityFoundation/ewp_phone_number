@@ -1,0 +1,17 @@
+{#
+/**
+ * @file
+ * Default theme implementation of a Phone Number element.
+ *
+ * Available variables:
+ * - e164: the standards compliant phone number;
+ * - ext: the extension;
+ * - other_format: the backwards compatible version.
+ *
+ * @see template_preprocess()
+ *
+ * @ingroup themeable
+ */
+#}
+{% if e164 %}{% set number = e164 %}{% else %}{% set number = other_format %}{% endif %}
+{{ number }}{% if ext %} {{ 'ext'|t }} {{ ext }}{% endif %}

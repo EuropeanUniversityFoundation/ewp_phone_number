@@ -9,17 +9,17 @@ use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Plugin implementation of the 'ewp_phone_number_default' formatter.
+ * Plugin implementation of the 'ewp_phone_number_simple' formatter.
  *
  * @FieldFormatter(
- *   id = "ewp_phone_number_default",
- *   label = @Translation("Default (plain text)"),
+ *   id = "ewp_phone_number_simple",
+ *   label = @Translation("Simple (plain text)"),
  *   field_types = {
  *     "ewp_phone_number"
  *   }
  * )
  */
-class PhoneNumberDefaultFormatter extends FormatterBase {
+class PhoneNumberSimpleFormatter extends FormatterBase {
 
   /**
    * {@inheritdoc}
@@ -56,15 +56,35 @@ class PhoneNumberDefaultFormatter extends FormatterBase {
     $elements = [];
 
     foreach ($items as $delta => $item) {
-      $elements[$delta] = [
-        '#theme' => 'ewp_phone_number_default',
-        '#e164' => $item->e164,
-        '#ext' => $item->ext,
-        '#other_format' => $item->other_format,
-      ];
+      $elements[$delta] = ['#markup' => $this->viewValue($item)];
     }
 
     return $elements;
+  }
+
+  /**
+   * Generate the output appropriate for one field item.
+   *
+   * @param \Drupal\Core\Field\FieldItemInterface $item
+   *   One field item.
+   *
+   * @return string
+   *   The textual output generated.
+   */
+  protected function viewValue(FieldItemInterface $item) {
+    $output = '';
+    $e164 = $item->e164;
+    $ext = $item->ext;
+    $other = $item->other_format;
+    if (!empty($e164)) {
+      $output = $e164;
+    } elseif (!empty($other)) {
+      $output = $other;
+    }
+    if (!empty($output) && !empty($ext)) {
+      $output .= ' ext '.$ext;
+    }
+    return $output;
   }
 
 }
