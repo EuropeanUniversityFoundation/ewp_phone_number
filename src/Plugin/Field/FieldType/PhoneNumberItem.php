@@ -29,12 +29,10 @@ class PhoneNumberItem extends FieldItemBase {
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
     // Prevent early t() calls by using the TranslatableMarkup.
     $properties['e164'] = DataDefinition::create('string')
-      ->setLabel(new TranslatableMarkup('Number'))
-      ->setRequired(TRUE);
+      ->setLabel(new TranslatableMarkup('Number'));
 
     $properties['ext'] = DataDefinition::create('string')
-      ->setLabel(new TranslatableMarkup('Extension'))
-      ->setRequired(TRUE);
+      ->setLabel(new TranslatableMarkup('Extension'));
 
     $properties['other_format'] = DataDefinition::create('string')
       ->setLabel(new TranslatableMarkup('Other format'));
