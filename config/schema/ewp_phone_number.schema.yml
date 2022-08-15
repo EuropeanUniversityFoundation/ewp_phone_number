@@ -1,13 +1,15 @@
-field.widget.settings.phone_number_default:
+# Schema for the configuration of the Phone Number field type.
+
+field.widget.settings.ewp_phone_number_default:
   type: mapping
   label: 'Default widget settings'
   mapping:
     placeholder_e164:
-      type: textfield
+      type: string
       label: 'Placeholder for Number'
     placeholder_ext:
-      type: textfield
+      type: string
       label: 'Placeholder for Extension'
     placeholder_other:
-      type: textfield
+      type: string
       label: 'Placeholder for Other format'
