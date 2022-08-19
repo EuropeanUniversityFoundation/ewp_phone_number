@@ -5,7 +5,7 @@ namespace Drupal\ewp_phone_number\Plugin\Field\FieldWidget;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
-
+use Drupal\ewp_phone_number\Plugin\Field\FieldType\PhoneNumberItem;
 /**
  * Plugin implementation of the 'ewp_phone_number_default' widget.
  *
@@ -20,14 +20,22 @@ use Drupal\Core\Form\FormStateInterface;
  */
 class PhoneNumberDefaultWidget extends WidgetBase {
 
+  const PLACEHOLDER_E164 = 'placeholder_e164';
+  const PLACEHOLDER_EXT = 'placeholder_ext';
+  const PLACEHOLDER_OTHER = 'placeholder_other';
+
+  const T_E164 = ['%field' => PhoneNumberItem::LABEL_E164];
+  const T_EXT = ['%field' => PhoneNumberItem::LABEL_EXT];
+  const T_OTHER = ['%field' => PhoneNumberItem::LABEL_OTHER];
+
   /**
    * {@inheritdoc}
    */
   public static function defaultSettings() {
     return [
-      'placeholder_e164' => '+000111222333444',
-      'placeholder_ext' => '12345',
-      'placeholder_other' => 'Any other format',
+      self::PLACEHOLDER_E164 => '+000111222333444',
+      self::PLACEHOLDER_EXT => '12345',
+      self::PLACEHOLDER_OTHER => 'Any other format',
     ] + parent::defaultSettings();
   }
 
@@ -37,25 +45,28 @@ class PhoneNumberDefaultWidget extends WidgetBase {
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $elements = [];
 
-    $elements['placeholder_e164'] = [
+    $text = 'Text shown inside the %field field until a value is entered.';
+    $hint = 'Usually a sample value or description of the expected format.';
+
+    $elements[self::PLACEHOLDER_E164] = [
       '#type' => 'textfield',
-      '#title' => t('Placeholder for Number'),
-      '#default_value' => $this->getSetting('placeholder_e164'),
-      '#description' => t('Text that will be shown inside the Number field until a value is entered. This hint is usually a sample value or a brief description of the expected format.'),
+      '#title' => $this->t('Placeholder for %field', self::T_E164),
+      '#default_value' => $this->getSetting(self::PLACEHOLDER_E164),
+      '#description' => $this->t($text . ' ' . $hint, self::T_E164),
     ];
 
-    $elements['placeholder_ext'] = [
+    $elements[self::PLACEHOLDER_EXT] = [
       '#type' => 'textfield',
-      '#title' => t('Placeholder for Extension'),
-      '#default_value' => $this->getSetting('placeholder_ext'),
-      '#description' => t('Text that will be shown inside the Extension field until a value is entered.'),
+      '#title' => $this->t('Placeholder for %field', self::T_EXT),
+      '#default_value' => $this->getSetting(self::PLACEHOLDER_EXT),
+      '#description' => $this->t($text, self::T_EXT),
     ];
 
-    $elements['placeholder_other'] = [
+    $elements[self::PLACEHOLDER_OTHER] = [
       '#type' => 'textfield',
-      '#title' => t('Placeholder for Other format'),
-      '#default_value' => $this->getSetting('placeholder_other'),
-      '#description' => t('Text that will be shown inside the Other format field until a value is entered.'),
+      '#title' => $this->t('Placeholder for %field', self::T_OTHER),
+      '#default_value' => $this->getSetting(self::PLACEHOLDER_OTHER),
+      '#description' => $this->t($text, self::T_OTHER),
     ];
 
     return $elements;
@@ -67,16 +78,22 @@ class PhoneNumberDefaultWidget extends WidgetBase {
   public function settingsSummary() {
     $summary = [];
 
-    if (!empty($this->getSetting('placeholder_e164'))) {
-      $summary[] = t('Placeholder: @placeholder', ['@placeholder' => $this->getSetting('placeholder_e164')]);
+    if (!empty($this->getSetting(self::PLACEHOLDER_E164))) {
+      $summary[] = $this->t('Placeholder: @placeholder', [
+        '@placeholder' => $this->getSetting(self::PLACEHOLDER_E164)
+      ]);
     }
 
-    if (!empty($this->getSetting('placeholder_ext'))) {
-      $summary[] = t('Placeholder: @placeholder', ['@placeholder' => $this->getSetting('placeholder_ext')]);
+    if (!empty($this->getSetting(self::PLACEHOLDER_EXT))) {
+      $summary[] = $this->t('Placeholder: @placeholder', [
+        '@placeholder' => $this->getSetting(self::PLACEHOLDER_EXT)
+      ]);
     }
 
-    if (!empty($this->getSetting('placeholder_other'))) {
-      $summary[] = t('Placeholder: @placeholder', ['@placeholder' => $this->getSetting('placeholder_other')]);
+    if (!empty($this->getSetting(self::PLACEHOLDER_OTHER))) {
+      $summary[] = $this->t('Placeholder: @placeholder', [
+        '@placeholder' => $this->getSetting(self::PLACEHOLDER_OTHER)
+      ]);
     }
 
     return $summary;
@@ -90,32 +107,35 @@ class PhoneNumberDefaultWidget extends WidgetBase {
       '#type' => 'details',
     ];
 
-    $element['e164'] = [
+    $element[PhoneNumberItem::E164] = [
       '#type' => 'tel',
-      '#title' => t('Number'),
-      '#default_value' => isset($items[$delta]->e164) ? $items[$delta]->e164 : NULL,
-      '#size' => 16,
-      '#placeholder' => $this->getSetting('placeholder_e164'),
-      '#maxlength' => $this->getFieldSetting('max_length_e164'),
+      '#title' => $this->t(PhoneNumberItem::LABEL_E164),
+      '#default_value' => $items[$delta]->e164 ?? NULL,
+      '#size' => PhoneNumberItem::MAX_LENGTH_E164,
+      '#placeholder' => $this->getSetting(self::PLACEHOLDER_E164),
+      '#maxlength' => PhoneNumberItem::MAX_LENGTH_E164,
     ];
 
-    $element['ext'] = [
+    $element[PhoneNumberItem::EXT] = [
       '#type' => 'textfield',
-      '#title' => t('Extension'),
-      '#default_value' => isset($items[$delta]->ext) ? $items[$delta]->ext : NULL,
-      '#size' => 5,
-      '#placeholder' => $this->getSetting('placeholder_ext'),
-      '#maxlength' => $this->getFieldSetting('max_length_ext'),
+      '#title' => $this->t(PhoneNumberItem::LABEL_EXT),
+      '#default_value' => $items[$delta]->ext ?? NULL,
+      '#size' => PhoneNumberItem::MAX_LENGTH_EXT,
+      '#placeholder' => $this->getSetting(self::PLACEHOLDER_EXT),
+      '#maxlength' => PhoneNumberItem::MAX_LENGTH_EXT,
     ];
 
-    $element['other_format'] = [
+    $element[PhoneNumberItem::OTHER] = [
       '#type' => 'textfield',
-      '#title' => t('Other format'),
-      '#default_value' => isset($items[$delta]->other_format) ? $items[$delta]->other_format : NULL,
-      '#size' => 32,
-      '#placeholder' => $this->getSetting('placeholder_other'),
-      '#maxlength' => $this->getFieldSetting('max_length_other'),
-      '#description' => t('Backwards compatibility only.'),
+      '#title' => $this->t(PhoneNumberItem::LABEL_OTHER),
+      '#default_value' => $items[$delta]->other_format ?? NULL,
+      '#size' => PhoneNumberItem::MAX_LENGTH_OTHER,
+      '#placeholder' => $this->getSetting(self::PLACEHOLDER_OTHER),
+      '#maxlength' => PhoneNumberItem::MAX_LENGTH_OTHER,
+      '#description' => $this->t('Backwards compatibility: read only.'),
+      '#attributes' => [
+        'readonly' => 'readonly',
+      ],
     ];
 
     return $element;

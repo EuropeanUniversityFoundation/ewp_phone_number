@@ -29,7 +29,11 @@ function ewp_phone_number_help($route_name, RouteMatchInterface $route_match) {
 function ewp_phone_number_theme() {
   return [
     'ewp_phone_number_default' => [
-      'variables' => ['e164' => NULL, 'ext' => NULL, 'other_format' => NULL],
+      'variables' => [
+        'e164' => NULL,
+        'ext' => NULL,
+        'other_format' => NULL
+      ],
     ],
   ];
 }

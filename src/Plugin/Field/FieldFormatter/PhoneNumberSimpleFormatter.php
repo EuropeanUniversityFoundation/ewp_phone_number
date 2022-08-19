@@ -2,7 +2,6 @@
 
 namespace Drupal\ewp_phone_number\Plugin\Field\FieldFormatter;
 
-use Drupal\Component\Utility\Html;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
@@ -73,17 +72,18 @@ class PhoneNumberSimpleFormatter extends FormatterBase {
    */
   protected function viewValue(FieldItemInterface $item) {
     $output = '';
-    $e164 = $item->e164;
-    $ext = $item->ext;
-    $other = $item->other_format;
-    if (!empty($e164)) {
-      $output = $e164;
-    } elseif (!empty($other)) {
-      $output = $other;
+
+    if (! empty($item->e164)) {
+      $output = $item->e164;
     }
-    if (!empty($output) && !empty($ext)) {
-      $output .= ' ext '.$ext;
+    elseif (! empty($item->other_format)) {
+      $output = $item->other_format;
     }
+
+    if (! empty($output) && ! empty($item->ext)) {
+      $output .= ' ext '. $item->ext;
+    }
+
     return $output;
   }
 

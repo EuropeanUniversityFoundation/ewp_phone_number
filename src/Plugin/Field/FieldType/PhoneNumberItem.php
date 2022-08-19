@@ -23,19 +23,31 @@ use Drupal\Core\TypedData\DataDefinition;
  */
 class PhoneNumberItem extends FieldItemBase {
 
+  const E164 = 'e164';
+  const EXT = 'ext';
+  const OTHER = 'other_format';
+
+  const LABEL_E164 = 'Number';
+  const LABEL_EXT = 'Extension';
+  const LABEL_OTHER = 'Other format';
+
+  const MAX_LENGTH_E164 = 16;
+  const MAX_LENGTH_EXT = 5;
+  const MAX_LENGTH_OTHER = 32;
+
   /**
    * {@inheritdoc}
    */
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
     // Prevent early t() calls by using the TranslatableMarkup.
-    $properties['e164'] = DataDefinition::create('string')
-      ->setLabel(new TranslatableMarkup('Number'));
+    $properties[self::E164] = DataDefinition::create('string')
+      ->setLabel(new TranslatableMarkup(self::LABEL_E164));
 
-    $properties['ext'] = DataDefinition::create('string')
-      ->setLabel(new TranslatableMarkup('Extension'));
+    $properties[self::EXT] = DataDefinition::create('string')
+      ->setLabel(new TranslatableMarkup(self::LABEL_EXT));
 
-    $properties['other_format'] = DataDefinition::create('string')
-      ->setLabel(new TranslatableMarkup('Other format'));
+    $properties[self::OTHER] = DataDefinition::create('string')
+      ->setLabel(new TranslatableMarkup(self::LABEL_OTHER));
 
     return $properties;
   }
@@ -46,17 +58,17 @@ class PhoneNumberItem extends FieldItemBase {
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
     $schema = [
       'columns' => [
-        'e164' => [
+        self::E164 => [
           'type' => 'varchar',
-          'length' => 16,
+          'length' => self::MAX_LENGTH_E164,
         ],
-        'ext' => [
+        self::EXT => [
           'type' => 'varchar',
-          'length' => 5,
+          'length' => self::MAX_LENGTH_EXT,
         ],
-        'other_format' => [
+        self::OTHER => [
           'type' => 'varchar',
-          'length' => 32,
+          'length' => self::MAX_LENGTH_OTHER,
         ],
       ],
     ];
@@ -68,29 +80,60 @@ class PhoneNumberItem extends FieldItemBase {
    * {@inheritdoc}
    */
   public function getConstraints() {
-    $constraint_manager = \Drupal::typedDataManager()->getValidationConstraintManager();
     $constraints = parent::getConstraints();
+    $constraint_manager = \Drupal::typedDataManager()
+      ->getValidationConstraintManager();
 
-    $max_length_e164 = 16;
-    $max_length_ext = 5;
-    $max_length_other = 32;
+    $field_label = $this->getFieldDefinition()->getLabel();
+
     $constraints[] = $constraint_manager->create('ComplexData', [
-      'e164' => [
+      self::E164 => [
+        'Regex' => [
+          'pattern' => "/^\+[1-9]\d{1,14}$/",
+          'message' => $this
+            ->t('%field_label: %prop does not match the E.164 format.', [
+              '%field_label' => $field_label,
+              '%prop' => self::LABEL_E164,
+            ]),
+        ],
         'Length' => [
-          'max' => $max_length_e164,
-          'maxMessage' => t('%name: the number may not be longer than @max characters.', ['%name' => $this->getFieldDefinition()->getLabel(), '@max' => $max_length_e164]),
+          'max' => self::MAX_LENGTH_E164,
+          'maxMessage' => $this
+            ->t('%field_label: %prop may not be longer than @max characters.', [
+              '%field_label' => $field_label,
+              '%prop' => self::LABEL_E164,
+              '@max' => self::MAX_LENGTH_E164,
+            ]),
         ],
       ],
-      'ext' => [
+      self::EXT => [
+        'Regex' => [
+          'pattern' => "/^\d{1,5}$/",
+          'message' => $this
+            ->t('%field_label: %prop must contain only digits, up to five.', [
+              '%field_label' => $field_label,
+              '%prop' => self::LABEL_EXT,
+            ]),
+        ],
         'Length' => [
-          'max' => $max_length_ext,
-          'maxMessage' => t('%name: the number may not be longer than @max characters.', ['%name' => $this->getFieldDefinition()->getLabel(), '@max' => $max_length_ext]),
+          'max' => self::MAX_LENGTH_EXT,
+          'maxMessage' => $this
+            ->t('%field_label: %prop may not be longer than @max characters.', [
+              '%field_label' => $field_label,
+              '%prop' => self::LABEL_EXT,
+              '@max' => self::MAX_LENGTH_EXT,
+            ]),
         ],
       ],
-      'other_format' => [
+      self::OTHER => [
         'Length' => [
-          'max' => $max_length_other,
-          'maxMessage' => t('%name: the number may not be longer than @max characters.', ['%name' => $this->getFieldDefinition()->getLabel(), '@max' => $max_length_other]),
+          'max' => self::MAX_LENGTH_OTHER,
+          'maxMessage' => $this
+            ->t('%field_label: %prop may not be longer than @max characters.', [
+              '%field_label' => $field_label,
+              '%prop' => self::LABEL_OTHER,
+              '@max' => self::MAX_LENGTH_OTHER,
+            ]),
         ],
       ],
     ]);
@@ -102,9 +145,13 @@ class PhoneNumberItem extends FieldItemBase {
    * {@inheritdoc}
    */
   public function isEmpty() {
-    $e164 = $this->get('e164')->getValue();
-    $other = $this->get('other_format')->getValue();
-    return ($e164 === NULL || $e164 === '') && ($other === NULL || $other === '');
+    $e164 = $this->get(self::E164)->getValue();
+    $e164_empty = ($e164 === NULL || $e164 === '');
+
+    $other = $this->get(self::OTHER)->getValue();
+    $other_empty = ($other === NULL || $other === '');
+
+    return ($e164_empty && $other_empty);
   }
 
 }
