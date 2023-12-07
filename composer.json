@@ -1,22 +1,33 @@
 {
-  "name": "euf/ewp_phone_number",
-  "type": "drupal-module",
-  "description": "Drupal implementation of the EWP Phone Number Type",
-  "keywords": [
-  ],
-  "homepage": "",
-  "minimum-stability": "dev",
-  "support": {
-    "issues": "",
-    "source": ""
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/EuropeanUniversityFoundation/ewp_core"
-    }
-  ],
-  "require": {
-    "euf/ewp_core": "^1.0@alpha"
-  }
+    "name": "euf/ewp_phone_number",
+    "type": "drupal-module",
+    "description": "Implements EWP Phone Number Type as a field type.",
+    "keywords": [
+        "Drupal",
+        "Erasmus Without Paper",
+        "Field type"
+    ],
+    "homepage": "https://github.com/EuropeanUniversityFoundation/ewp_phone_number",
+    "support": {
+        "issues": "https://github.com/EuropeanUniversityFoundation/ewp_phone_number/issues",
+        "source": "https://github.com/EuropeanUniversityFoundation/ewp_phone_number"
+    },
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Tiago Simões",
+            "email": "tiago.simoes@uni-foundation.eu",
+            "role": "Maintainer"
+        }
+    ],
+    "require": {
+        "euf/ewp_core": "^1.0@beta"
+    },
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.uni-foundation.eu"
+        }
+    ]
 }
