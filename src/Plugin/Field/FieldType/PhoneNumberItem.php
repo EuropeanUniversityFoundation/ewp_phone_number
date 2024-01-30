@@ -15,8 +15,12 @@ use Drupal\Core\TypedData\DataDefinition;
  * @FieldType(
  *   id = "ewp_phone_number",
  *   label = @Translation("Phone number"),
- *   description = @Translation("EWP Phone number type"),
- *   category = @Translation("EWP Contact"),
+ *   description = {
+ *     @Translation("Stores a phone number and an extension number."),
+ *     @Translation("Allows a standard E164 format for the phone number."),
+ *     @Translation("Allows a fallback format for the phone number."),
+ *   },
+ *   category = "ewp_core",
  *   default_widget = "ewp_phone_number_default",
  *   default_formatter = "ewp_phone_number_default"
  * )

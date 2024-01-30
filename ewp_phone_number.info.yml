@@ -1,7 +1,7 @@
 name: 'EWP Phone Number'
 type: module
-description: 'Drupal implementation of the EWP Phone Number Type'
-core_version_requirement: ^8 || ^9 || ^10
+description: 'Implements EWP Phone Number Type as a field type.'
+core_version_requirement: ^9.5 || ^10
 package: 'EWP'
 dependencies:
   - drupal:telephone
