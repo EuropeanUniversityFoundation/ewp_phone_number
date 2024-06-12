@@ -6,6 +6,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\ewp_phone_number\Plugin\Field\FieldType\PhoneNumberItem;
+
 /**
  * Plugin implementation of the 'ewp_phone_number_default' widget.
  *
@@ -80,19 +81,19 @@ class PhoneNumberDefaultWidget extends WidgetBase {
 
     if (!empty($this->getSetting(self::PLACEHOLDER_E164))) {
       $summary[] = $this->t('Placeholder: @placeholder', [
-        '@placeholder' => $this->getSetting(self::PLACEHOLDER_E164)
+        '@placeholder' => $this->getSetting(self::PLACEHOLDER_E164),
       ]);
     }
 
     if (!empty($this->getSetting(self::PLACEHOLDER_EXT))) {
       $summary[] = $this->t('Placeholder: @placeholder', [
-        '@placeholder' => $this->getSetting(self::PLACEHOLDER_EXT)
+        '@placeholder' => $this->getSetting(self::PLACEHOLDER_EXT),
       ]);
     }
 
     if (!empty($this->getSetting(self::PLACEHOLDER_OTHER))) {
       $summary[] = $this->t('Placeholder: @placeholder', [
-        '@placeholder' => $this->getSetting(self::PLACEHOLDER_OTHER)
+        '@placeholder' => $this->getSetting(self::PLACEHOLDER_OTHER),
       ]);
     }
 

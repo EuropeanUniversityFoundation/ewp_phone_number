@@ -73,15 +73,15 @@ class PhoneNumberSimpleFormatter extends FormatterBase {
   protected function viewValue(FieldItemInterface $item) {
     $output = '';
 
-    if (! empty($item->e164)) {
+    if (!empty($item->e164)) {
       $output = $item->e164;
     }
-    elseif (! empty($item->other_format)) {
+    elseif (!empty($item->other_format)) {
       $output = $item->other_format;
     }
 
-    if (! empty($output) && ! empty($item->ext)) {
-      $output .= ' ext '. $item->ext;
+    if (!empty($output) && !empty($item->ext)) {
+      $output .= ' ext ' . $item->ext;
     }
 
     return $output;

@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Contains install, update and uninstall hooks.
+ */
+
+/**
  * Remove requirement for all field values.
  */
 function ewp_phone_number_update_8101() {
