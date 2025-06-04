@@ -43,13 +43,13 @@ class PhoneNumberItem extends FieldItemBase {
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
     // Prevent early t() calls by using the TranslatableMarkup.
     $properties[self::E164] = DataDefinition::create('string')
-      ->setLabel(new TranslatableMarkup(self::LABEL_E164));
+      ->setLabel(new TranslatableMarkup('@l', ['@l' => self::LABEL_E164]));
 
     $properties[self::EXT] = DataDefinition::create('string')
-      ->setLabel(new TranslatableMarkup(self::LABEL_EXT));
+      ->setLabel(new TranslatableMarkup('@l', ['@l' => self::LABEL_EXT]));
 
     $properties[self::OTHER] = DataDefinition::create('string')
-      ->setLabel(new TranslatableMarkup(self::LABEL_OTHER));
+      ->setLabel(new TranslatableMarkup('@l', ['@l' => self::LABEL_OTHER]));
 
     return $properties;
   }

@@ -5,7 +5,6 @@ namespace Drupal\ewp_phone_number\Plugin\Field\FieldFormatter;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
-use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Plugin implementation of the 'ewp_phone_number_simple' formatter.
@@ -19,34 +18,6 @@ use Drupal\Core\Form\FormStateInterface;
  * )
  */
 class PhoneNumberSimpleFormatter extends FormatterBase {
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function defaultSettings() {
-    return [
-      // Implement default settings.
-    ] + parent::defaultSettings();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function settingsForm(array $form, FormStateInterface $form_state) {
-    return [
-      // Implement settings form.
-    ] + parent::settingsForm($form, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function settingsSummary() {
-    $summary = [];
-    // Implement settings summary.
-
-    return $summary;
-  }
 
   /**
    * {@inheritdoc}

@@ -46,28 +46,31 @@ class PhoneNumberDefaultWidget extends WidgetBase {
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $elements = [];
 
-    $text = 'Text shown inside the %field field until a value is entered.';
+    $text = 'Text shown inside this field until a value is entered.';
     $hint = 'Usually a sample value or description of the expected format.';
 
     $elements[self::PLACEHOLDER_E164] = [
       '#type' => 'textfield',
       '#title' => $this->t('Placeholder for %field', self::T_E164),
       '#default_value' => $this->getSetting(self::PLACEHOLDER_E164),
-      '#description' => $this->t($text . ' ' . $hint, self::T_E164),
+      '#description' => $this->t('@text @hint', [
+        '@text' => $text,
+        '@hint' => $hint,
+      ]),
     ];
 
     $elements[self::PLACEHOLDER_EXT] = [
       '#type' => 'textfield',
       '#title' => $this->t('Placeholder for %field', self::T_EXT),
       '#default_value' => $this->getSetting(self::PLACEHOLDER_EXT),
-      '#description' => $this->t($text, self::T_EXT),
+      '#description' => $this->t('@text', ['@text' => $text]),
     ];
 
     $elements[self::PLACEHOLDER_OTHER] = [
       '#type' => 'textfield',
       '#title' => $this->t('Placeholder for %field', self::T_OTHER),
       '#default_value' => $this->getSetting(self::PLACEHOLDER_OTHER),
-      '#description' => $this->t($text, self::T_OTHER),
+      '#description' => $this->t('@text', ['@text' => $text]),
     ];
 
     return $elements;
@@ -110,7 +113,7 @@ class PhoneNumberDefaultWidget extends WidgetBase {
 
     $element[PhoneNumberItem::E164] = [
       '#type' => 'tel',
-      '#title' => $this->t(PhoneNumberItem::LABEL_E164),
+      '#title' => $this->t('@l', ['@l' => PhoneNumberItem::LABEL_E164]),
       '#default_value' => $items[$delta]->e164 ?? NULL,
       '#size' => PhoneNumberItem::MAX_LENGTH_E164,
       '#placeholder' => $this->getSetting(self::PLACEHOLDER_E164),
@@ -119,7 +122,7 @@ class PhoneNumberDefaultWidget extends WidgetBase {
 
     $element[PhoneNumberItem::EXT] = [
       '#type' => 'textfield',
-      '#title' => $this->t(PhoneNumberItem::LABEL_EXT),
+      '#title' => $this->t('@l', ['@l' => PhoneNumberItem::LABEL_EXT]),
       '#default_value' => $items[$delta]->ext ?? NULL,
       '#size' => PhoneNumberItem::MAX_LENGTH_EXT,
       '#placeholder' => $this->getSetting(self::PLACEHOLDER_EXT),
@@ -128,7 +131,7 @@ class PhoneNumberDefaultWidget extends WidgetBase {
 
     $element[PhoneNumberItem::OTHER] = [
       '#type' => 'textfield',
-      '#title' => $this->t(PhoneNumberItem::LABEL_OTHER),
+      '#title' => $this->t('@l', ['@l' => PhoneNumberItem::LABEL_OTHER]),
       '#default_value' => $items[$delta]->other_format ?? NULL,
       '#size' => PhoneNumberItem::MAX_LENGTH_OTHER,
       '#placeholder' => $this->getSetting(self::PLACEHOLDER_OTHER),

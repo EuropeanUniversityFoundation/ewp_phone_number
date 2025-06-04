@@ -1,5 +1,4 @@
 # Schema for the configuration of the Phone Number field type.
-
 field.widget.settings.ewp_phone_number_default:
   type: mapping
   label: 'Default widget settings'
