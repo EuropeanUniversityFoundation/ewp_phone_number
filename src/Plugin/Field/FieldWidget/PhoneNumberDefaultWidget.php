@@ -2,23 +2,21 @@
 
 namespace Drupal\ewp_phone_number\Plugin\Field\FieldWidget;
 
+use Drupal\Core\Field\Attribute\FieldWidget;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\ewp_phone_number\Plugin\Field\FieldType\PhoneNumberItem;
 
 /**
  * Plugin implementation of the 'ewp_phone_number_default' widget.
- *
- * @FieldWidget(
- *   id = "ewp_phone_number_default",
- *   module = "ewp_phone_numbert",
- *   label = @Translation("Default"),
- *   field_types = {
- *     "ewp_phone_number"
- *   }
- * )
  */
+#[FieldWidget(
+  id: 'ewp_phone_number_default',
+  label: new TranslatableMarkup('Default'),
+  field_types: ['ewp_phone_number'],
+)]
 class PhoneNumberDefaultWidget extends WidgetBase {
 
   const PLACEHOLDER_E164 = 'placeholder_e164';

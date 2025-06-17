@@ -2,20 +2,21 @@
 
 namespace Drupal\ewp_phone_number\Plugin\Field\FieldFormatter;
 
+use Drupal\Core\Field\Attribute\FieldFormatter;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Plugin implementation of the 'ewp_phone_number_default' formatter.
- *
- * @FieldFormatter(
- *   id = "ewp_phone_number_default",
- *   label = @Translation("Default (plain text)"),
- *   field_types = {
- *     "ewp_phone_number"
- *   }
- * )
  */
+#[FieldFormatter(
+  id: 'ewp_phone_number_default',
+  label: new TranslatableMarkup('Default (plain text)'),
+  field_types: [
+    'ewp_phone_number',
+  ],
+)]
 class PhoneNumberDefaultFormatter extends FormatterBase {
 
   /**

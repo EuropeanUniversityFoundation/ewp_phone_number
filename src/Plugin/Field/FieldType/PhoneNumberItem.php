@@ -2,6 +2,7 @@
 
 namespace Drupal\ewp_phone_number\Plugin\Field\FieldType;
 
+use Drupal\Core\Field\Attribute\FieldType;
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
@@ -9,20 +10,20 @@ use Drupal\Core\TypedData\DataDefinition;
 
 /**
  * Plugin implementation of the 'ewp_phone_number' field type.
- *
- * @FieldType(
- *   id = "ewp_phone_number",
- *   label = @Translation("Phone number"),
- *   description = {
- *     @Translation("Stores a phone number and an extension number."),
- *     @Translation("Allows a standard E164 format for the phone number."),
- *     @Translation("Allows a fallback format for the phone number."),
- *   },
- *   category = "ewp_core",
- *   default_widget = "ewp_phone_number_default",
- *   default_formatter = "ewp_phone_number_default"
- * )
  */
+#[FieldType(
+  id: "ewp_phone_number",
+  module: "ewp_phone_number",
+  label: new TranslatableMarkup("Phone number"),
+  description: [
+    new TranslatableMarkup("Stores a phone number and an extension number."),
+    new TranslatableMarkup("Allows a standard E164 format for the phone number."),
+    new TranslatableMarkup("Allows a fallback format for the phone number."),
+  ],
+  category: "ewp_core",
+  default_widget: "ewp_phone_number_default",
+  default_formatter: "ewp_phone_number_default",
+)]
 class PhoneNumberItem extends FieldItemBase {
 
   const E164 = 'e164';
