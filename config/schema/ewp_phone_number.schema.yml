@@ -1,4 +1,29 @@
 # Schema for the configuration of the Phone Number field type.
+field.value.ewp_phone_number:
+  type: mapping
+  label: Default value
+  mapping:
+    e164:
+      type: string
+      label: 'Number'
+      constraints:
+        Regex:
+          pattern: /^\+[1-9]\d{1,14}$/
+          message: 'Value does not match the E.164 format.'
+    ext:
+      type: string
+      label: 'Extension'
+      constraints:
+        Regex:
+          pattern: /^\d{1,5}$/
+          message: 'Value must contain only digits, up to five.'
+    other_format:
+      type: string
+      label: 'Other format'
+      constraints:
+        Length:
+          min: 0
+
 field.widget.settings.ewp_phone_number_default:
   type: mapping
   label: 'Default widget settings'
@@ -6,9 +31,18 @@ field.widget.settings.ewp_phone_number_default:
     placeholder_e164:
       type: string
       label: 'Placeholder for Number'
+      constraints:
+        Length:
+          min: 0
     placeholder_ext:
       type: string
       label: 'Placeholder for Extension'
+      constraints:
+        Length:
+          min: 0
     placeholder_other:
       type: string
       label: 'Placeholder for Other format'
+      constraints:
+        Length:
+          min: 0
