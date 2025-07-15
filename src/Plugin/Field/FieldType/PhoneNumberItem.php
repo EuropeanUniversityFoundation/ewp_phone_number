@@ -147,6 +147,14 @@ class PhoneNumberItem extends FieldItemBase {
   /**
    * {@inheritdoc}
    */
+  public static function mainPropertyName() {
+    // The main property may be empty, as per the isEmpty() check below.
+    return self::E164;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function isEmpty() {
     $e164 = $this->get(self::E164)->getValue();
     $e164_empty = ($e164 === NULL || $e164 === '');
